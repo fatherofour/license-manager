@@ -1,0 +1,1 @@
+export { LicensesList } from './LicensesList';

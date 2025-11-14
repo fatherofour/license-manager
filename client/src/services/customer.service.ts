@@ -1,5 +1,28 @@
 import api from './api';
-import { Customer, CreateCustomerDto, UpdateCustomerDto } from '@/types';
+import { Customer } from '@shared/types/customer.types';
+
+interface CreateCustomerDto {
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+}
+
+interface UpdateCustomerDto {
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+  status?: 'active' | 'inactive' | 'suspended';
+}
 
 export const customerService = {
   getAll: async (): Promise<Customer[]> => {

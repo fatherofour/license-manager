@@ -1,7 +1,7 @@
 import React from 'react';
 import { LicenseRequest } from '@/types';
 import { formatDate } from '@/utils/formatters';
-import { Badge } from '@/components/common/Badge';
+import { Badge } from '@/components/common/badge';
 import { Card } from '@/components/common/Card';
 import { Clock, CheckCircle, XCircle } from 'lucide-react';
 

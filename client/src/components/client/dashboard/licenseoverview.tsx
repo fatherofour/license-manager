@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Customer, CustomerLicense } from '@/types';
+import { Customer } from '@/types';
 import { formatDate } from '@/utils/formatters';
-import { Badge } from '@/components/common/Badge';
+import { Badge } from '@/components/common/badge';
 import { Card } from '@/components/common/Card';
-import { ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
-import { getExpiryStatus } from '@/utils/dateHelpers';
+import { ChevronDown, ChevronUp, AlertCircle, Package } from 'lucide-react';
+import { getExpiryStatus } from '@/utils/datehelpers';
 
 interface LicenseOverviewProps {
   customer: Customer;
@@ -50,16 +50,30 @@ export const LicenseOverview: React.FC<LicenseOverviewProps> = ({ customer }) =>
               key={license.id}
               className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition"
             >
-              <div
-                className="p-6 cursor-pointer hover:bg-gray-50 transition"
-                onClick={() => toggleExpanded(license.id)}
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-800">
-                        {license.type}
-                      </h3>
+              <div className="flex justify-between items-center p-6 cursor-pointer hover:bg-gray-50 transition">
+                <div onClick={() => toggleExpanded(license.id)} className="flex-1">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-lg font-bold text-gray-800">
+                            {license.type}
+                          </h3>
+                          <Badge variant={status === 'expired' ? 'error' : status === 'expiring' ? 'warning' : 'default'}>
+                            {status}
+                          </Badge>
+                        </div>
+                        <Badge variant={getStatusVariant(license.status)}>
+                          {license.status.toUpperCase()}
+                        </Badge>
+                        {license.status === 'expiring' && (
+                          <span className="flex items-center gap-1 text-yellow-600 text-sm">
+                            <AlertCircle size={16} />
+                            Renewal due soon
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-gray-500">{license.subtype}</p>
                       <Badge variant={getStatusVariant(license.status)}>
                         {license.status.toUpperCase()}
                       </Badge>

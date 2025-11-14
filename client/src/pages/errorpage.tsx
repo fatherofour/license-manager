@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Home } from 'lucide-react';
-import { Button } from '@/components/common/Button';
+import { Button } from "@/components/common/button";
 
 export const ErrorPage: React.FC = () => {
   const navigate = useNavigate();

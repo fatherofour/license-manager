@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/common/Card';
-import { Input } from '@/components/common/Input';
-import { Button } from '@/components/common/Button';
-import { useAuth } from '@/hooks/useAuth';
+import { Input } from '@/components/common/input';
+import { Button } from "@/components/common/button";
+import { useAuth } from '@/hooks/useauths';
 import { Save, User, Lock, Bell } from 'lucide-react';
 
 export const SettingsPage: React.FC = () => {

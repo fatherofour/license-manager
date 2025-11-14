@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { useRequests } from '@/hooks/useRequests';
-import { Loader } from '@/components/common/Loader';
-import { Input } from '@/components/common/Input';
-import { Select } from '@/components/common/Select';
+import { useAuth } from '@/hooks/useauths';
+import { useRequests } from '@/hooks/userequests';
+import { Loader } from '@/components/common/loader';
+import { Input } from '@/components/common/input';
+import { Select } from '@/components/common/select';
 import { Search, Clock, CheckCircle, XCircle } from 'lucide-react';
 import { formatDate } from '@/utils/formatters';
-import { Badge } from '@/components/common/Badge';
+import { Badge } from '@/components/common/badge';
 import { Card } from '@/components/common/Card';
 import { LicenseRequest } from '@/types';
 

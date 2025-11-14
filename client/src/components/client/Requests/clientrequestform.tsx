@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { Input } from '@/components/common/Input';
-import { Select } from '@/components/common/Select';
-import { Button } from '@/components/common/Button';
+import { Input } from '@/components/common/input';
+import { Select } from '@/components/common/select';
+import { Button } from "@/components/common/button";
 import { Card } from '@/components/common/Card';
-import { useAuth } from '@/hooks/useAuth';
-import { useCustomers } from '@/hooks/useCustomers';
-import { useRequests } from '@/hooks/useRequests';
+import { useAuth } from '@/hooks/useauths';
+import { useCustomers } from '@/hooks/usecustomers';
+import { useRequests } from '@/hooks/userequests';
 import { useNotification } from '@/context/NotificationContext';
 import { LICENSE_TYPES, LICENSE_SUBTYPES } from '@/utils/constants';
 import { validateEmail, validatePhone, validateRequired } from '@/utils/validators';
-import { Loader } from '@/components/common/Loader';
+import { Loader } from '@/components/common/loader';
 
 interface FormData {
   licenseType: string;

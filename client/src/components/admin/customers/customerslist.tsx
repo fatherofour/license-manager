@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { Search, Plus, Filter } from 'lucide-react';
-import { Input } from '@/components/common/Input';
-import { Button } from '@/components/common/Button';
-import { Loader } from '@/components/common/Loader';
-import { CustomerCard } from './CustomerCard';
-import { useCustomers } from '@/hooks/useCustomers';
+import { Search, Plus, Filter, ChevronDown } from 'lucide-react';
+import { Input } from '@/components/common/input';
+import { Button } from "@/components/common/button";
+import { Loader } from '@/components/common/loader';
+import { CustomerCard } from './customercard';
+import { useCustomers } from '@/hooks/usecustomers';
+import { Customer } from '@shared/types/customer.types';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const CustomersList: React.FC = () => {
   const { customers, loading } = useCustomers();
@@ -13,7 +20,7 @@ export const CustomersList: React.FC = () => {
     'all'
   );
 
-  const filteredCustomers = customers.filter((customer) => {
+  const filteredCustomers = customers.filter((customer: Customer) => {
     const matchesSearch =
       customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customer.email.toLowerCase().includes(searchTerm.toLowerCase());
@@ -32,25 +39,40 @@ export const CustomersList: React.FC = () => {
         <Button icon={<Plus size={18} />}>Add Customer</Button>
       </div>
 
-      <div className="flex gap-4">
-        <div className="flex-1">
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <Input
+            type="text"
             placeholder="Search customers..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            leftIcon={<Search size={20} />}
+            className="pl-10"
           />
         </div>
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value as any)}
-          className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          <option value="suspended">Suspended</option>
-        </select>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="flex items-center gap-2">
+              <Filter className="h-4 w-4" />
+              <span>Filter</span>
+              <ChevronDown className="h-4 w-4 opacity-50" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onSelect={() => setFilterStatus('all')}>
+              All Status
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setFilterStatus('active')}>
+              Active
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setFilterStatus('inactive')}>
+              Inactive
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setFilterStatus('suspended')}>
+              Suspended
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="grid gap-6">
@@ -65,3 +87,5 @@ export const CustomersList: React.FC = () => {
         )}
       </div>
     </div>
+ );
+};

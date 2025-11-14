@@ -3,17 +3,21 @@ import { Badge } from '@/components/common/badge';
 import { formatCurrency, formatDate } from '@/utils/formatters';
 import { Customer } from "@shared/types/customer.types";
 
+type CustomerStatus = 'active' | 'inactive' | 'suspended';
+
+
 interface CustomerCardProps {
-  customer: Customer;
+  customer: Customer & { status: CustomerStatus };
   onClick?: () => void;
 }
 
+const statusVariant: Record<CustomerStatus, 'success' | 'default' | 'error'> = {
+  active: 'success',
+  inactive: 'default',
+  suspended: 'error',
+} as const;
+
 export const CustomerCard: React.FC<CustomerCardProps> = ({ customer, onClick }) => {
-  const statusVariant = {
-    active: 'success' as const,
-    inactive: 'default' as const,
-    suspended: 'error' as const,
-  };
 
   return (
     <div
@@ -31,19 +35,19 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({ customer, onClick })
             {formatCurrency(customer.totalSpent)}
           </p>
           <p className="text-sm text-gray-500">Total Spent</p>
-          <Badge variant={statusVariant[customer.status]} size="sm" className="mt-2">
+          <Badge variant={statusVariant[customer.status] || 'default'} size="sm" className="mt-2">
             {customer.status.toUpperCase()}
           </Badge>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        {customer.licenses.slice(0, 2).map((license) => (
+        {(customer.licenses || []).slice(0, 2).map((license) => (
           <div key={license.id} className="border border-gray-200 rounded-lg p-4">
             <div className="flex justify-between items-start mb-2">
               <div>
                 <h4 className="font-semibold text-gray-800">{license.type}</h4>
-                <p className="text-sm text-gray-500">{license.subtype}</p>
+                <p className="text-sm text-gray-500">Purchased: {formatDate(license.purchaseDate)}</p>
               </div>
               <Badge
                 variant={
@@ -58,19 +62,23 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({ customer, onClick })
                 {license.status.toUpperCase()}
               </Badge>
             </div>
-            <div className="flex justify-between text-sm mt-3">
+            <div className="text-sm mt-3">
               <span className="text-gray-600">
-                Qty: <strong>{license.quantity}</strong>
+                Renewal: <strong>{formatDate(license.renewalDate)}</strong>
               </span>
-              <span className="text-gray-600">{formatDate(license.renewalDate)}</span>
+              {license.quantity > 1 && (
+                <span className="ml-4 text-gray-600">
+                  Quantity: <strong>{license.quantity}</strong>
+                </span>
+              )}
             </div>
           </div>
         ))}
       </div>
 
-      {customer.licenses.length > 2 && (
+      {(customer.licenses?.length || 0) > 2 && (
         <p className="text-sm text-gray-500 mt-4 text-center">
-          +{customer.licenses.length - 2} more license types
+          +{(customer.licenses?.length || 0) - 2} more license types
         </p>
       )}
     </div>

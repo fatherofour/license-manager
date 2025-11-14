@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { PrivateRoute } from './PrivateRoute';
-import { PublicRoute } from './PublicRoute';
-import { AdminRoutes } from './AdminRoutes';
-import { ClientRoutes } from './ClientRoutes';
+import { PrivateRoute } from './privateroutes';
+import { PublicRoute } from './publicroutes';
+import { AdminRoutes } from './adminroutes';
+import { ClientRoutes } from './clientroutes';
 import { LoginPage, RegisterPage, ForgotPasswordPage } from '@/pages/auth';
-import { ErrorPage } from '@/pages/ErrorPage';
+import { ErrorPage } from '@/pages/errorpage';
 import { UserRole } from '@/types';
 
 export const AppRoutes: React.FC = () => {

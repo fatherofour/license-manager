@@ -1,4 +1,10 @@
-import { format, parseISO, differenceInDays, addMonths, addYears } from 'date-fns';
+import { format, parseISO, differenceInDays, addMonths, addYears, setYear } from 'date-fns';
+
+// Helper function to get current date with year set to 2025
+const getCurrentDate = (): Date => {
+  const now = new Date();
+  return setYear(now, 2025);
+};
 
 export const formatDisplayDate = (date: string | Date): string => {
   return format(new Date(date), 'MMM dd, yyyy');
@@ -9,7 +15,7 @@ export const formatInputDate = (date: string | Date): string => {
 };
 
 export const getDaysUntil = (date: string | Date): number => {
-  return differenceInDays(new Date(date), new Date());
+  return differenceInDays(new Date(date), getCurrentDate());
 };
 
 export const isExpiringSoon = (renewalDate: string, daysThreshold: number = 30): boolean => {
@@ -36,3 +42,6 @@ export const getExpiryStatus = (renewalDate: string): 'active' | 'expiring' | 'e
   if (isExpiringSoon(renewalDate)) return 'expiring';
   return 'active';
 };
+
+// Alias formatDisplayDate as formatDate for backward compatibility
+export const formatDate = formatDisplayDate;

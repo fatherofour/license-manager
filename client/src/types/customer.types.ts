@@ -1,17 +1,9 @@
 import { CustomerLicense } from './license.types';
+import { Customer as SharedCustomer } from '../../../shared/types/customer.types';
 
-export interface Customer {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  licenses: CustomerLicense[];
-  totalSpent: number;
-  lastPurchase: string;
-  status: 'active' | 'inactive' | 'suspended';
-  createdAt: string;
-  updatedAt: string;
+export interface Customer extends Omit<SharedCustomer, 'lastPurchase' | 'licenses'> {
+  lastPurchase: string;  // Override to be strictly string
+  licenses: CustomerLicense[];  // Use local CustomerLicense type
 }
 
 export interface CreateCustomerDto {

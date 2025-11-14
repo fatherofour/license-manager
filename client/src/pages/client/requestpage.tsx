@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ClientRequestForm } from '@/components/client/Requests/ClientRequestForm';
-import { ClientRequestsList } from '@/components/client/Requests/ClientRequestsList';
-import { Button } from '@/components/common/Button';
+import { ClientRequestForm } from '@/components/client/Requests/clientrequestform';
+import { ClientRequestsList } from '@/components/client/Requests/clientrequestlist';
+import { Button } from "@/components/common/button";
 import { Plus, List } from 'lucide-react';
 
 export const RequestsPage: React.FC = () => {

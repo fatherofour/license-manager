@@ -1,9 +1,9 @@
 import React from 'react';
 import { LicenseRequest } from '@/types';
 import { formatDate } from '@/utils/formatters';
-import { Badge } from '@/components/common/Badge';
+import { Badge } from '@/components/common/badge';
 import { CheckCircle, XCircle, Clock } from 'lucide-react';
-import { Button } from '@/components/common/Button';
+import { Button } from "@/components/common/button";
 
 interface RequestCardProps {
   request: LicenseRequest;

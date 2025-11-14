@@ -1,2 +1,2 @@
-export { ClientRequestForm } from './ClientRequestForm';
-export { ClientRequestsList } from './ClientRequestsList';
+export { ClientRequestForm } from './clientrequestform';
+export { ClientRequestsList } from './clientrequestlist';

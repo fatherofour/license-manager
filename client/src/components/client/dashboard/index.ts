@@ -1,3 +1,3 @@
-export { ClientDashboard } from './ClientDashboard';
-export { LicenseOverview } from './LicenseOverview';
-export { RecentRequests } from './RecentRequests';
+export { ClientDashboard } from './clientdashboard';
+export { LicenseOverview } from './licenseoverview';
+export { RecentRequests } from './recentrequest';

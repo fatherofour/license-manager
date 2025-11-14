@@ -1,13 +1,14 @@
 import React from 'react';
 import { Plus, Package, Users, DollarSign } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/common/Button';
-import { LicenseOverview } from './LicenseOverview';
-import { RecentRequests } from './RecentRequests';
-import { useAuth } from '@/hooks/useAuth';
-import { useCustomers } from '@/hooks/useCustomers';
-import { useRequests } from '@/hooks/useRequests';
-import { Loader } from '@/components/common/Loader';
+import { Button } from "@/components/common/button";
+import { LicenseOverview } from './licenseoverview';
+import { RecentRequests } from './recentrequest';
+import { useAuth } from '@/context/AuthContext';
+import { Customer } from '@/types/customer.types';
+import { useCustomers } from '@/hooks/usecustomers';
+import { useRequests } from '@/hooks/userequests';
+import { Loader } from '@/components/common/loader';
 import { formatCurrency } from '@/utils/formatters';
 
 export const ClientDashboard: React.FC = () => {
@@ -16,16 +17,17 @@ export const ClientDashboard: React.FC = () => {
   const { requests, loading: requestsLoading } = useRequests();
   const navigate = useNavigate();
 
-  const currentCustomer = customers.find((c) => c.id === user?.customerId);
+  // Type assertion to ensure we're using the correct Customer type
+  const currentCustomer = customers.find((c) => c.id === user?.customerId) as Customer | undefined;
   const customerRequests = requests.filter((r) => r.customerId === user?.customerId);
 
-  if (customersLoading || requestsLoading || !currentCustomer) {
+  if (customersLoading || requestsLoading || !currentCustomer || !user?.customerId) {
     return <Loader fullScreen />;
   }
 
-  const totalLicenses = currentCustomer.licenses.reduce((sum, l) => sum + l.quantity, 0);
-  const activeLicenses = currentCustomer.licenses.filter((l) => l.status === 'active').length;
-  const expiringLicenses = currentCustomer.licenses.filter((l) => l.status === 'expiring').length;
+  const totalLicenses = currentCustomer.licenses?.reduce((sum, l) => sum + l.quantity, 0) ?? 0;
+  const activeLicenses = currentCustomer.licenses?.filter((l) => l.status === 'active').length ?? 0;
+  const expiringLicenses = currentCustomer.licenses?.filter((l) => l.status === 'expiring').length ?? 0;
 
   return (
     <div className="space-y-6">

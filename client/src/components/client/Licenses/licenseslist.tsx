@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { useCustomers } from '@/hooks/useCustomers';
-import { Loader } from '@/components/common/Loader';
-import { Input } from '@/components/common/Input';
-import { Select } from '@/components/common/Select';
-import { Search, Filter, Package, AlertCircle } from 'lucide-react';
-import { formatDate, getExpiryStatus } from '@/utils/dateHelpers';
-import { Badge } from '@/components/common/Badge';
+import { useAuth } from '@/hooks/useauths';
+import { useCustomers } from '@/hooks/usecustomers';
+import { Loader } from '@/components/common/loader';
+import { Input } from '@/components/common/input';
+import { Select } from '@/components/common/select';
+import { Search, Package, AlertCircle } from 'lucide-react';
+import { formatDate, getExpiryStatus } from '@/utils/datehelpers';
+import { Badge } from '@/components/common/badge';
 import { Card } from '@/components/common/Card';
 
 export const LicensesList: React.FC = () => {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { RequestCard } from './RequestCard';
-import { useRequests } from '@/hooks/useRequests';
-import { Loader } from '@/components/common/Loader';
-import { Input } from '@/components/common/Input';
-import { Select } from '@/components/common/Select';
+import { RequestCard } from './requestcard';
+import { useRequests } from '@/hooks/userequests';
+import { Loader } from '@/components/common/loader';
+import { Input } from '@/components/common/input';
+import { Select } from '@/components/common/select';
 import { Search, Filter } from 'lucide-react';
 import { RequestStatus } from '@/types';
 

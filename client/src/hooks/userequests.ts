@@ -12,65 +12,85 @@ export const useRequests = () => {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      setError(null);
-      const data = await requestService.getAll();
+      const data = await requestService.getRequests();
       setRequests(data);
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Failed to fetch requests';
-      setError(errorMessage);
-      showNotification('error', errorMessage);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching requests:', err);
+      setError('Failed to load requests');
+      showNotification({
+        type: 'error',
+        message: 'Failed to load license requests',
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const createRequest = async (requestData: any): Promise<LicenseRequest | null> => {
+  const createRequest = async (requestData: Partial<LicenseRequest>) => {
     try {
-      const data = await requestService.create(requestData);
-      setRequests((prev) => [...prev, data]);
-      showNotification('success', 'Request submitted successfully');
-      return data;
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Failed to create request';
-      showNotification('error', errorMessage);
-      return null;
+      setLoading(true);
+      const newRequest = await requestService.createRequest(requestData);
+      setRequests(prev => [...prev, newRequest]);
+      showNotification({
+        type: 'success',
+        message: 'License request submitted successfully',
+      });
+      return newRequest;
+    } catch (err) {
+      console.error('Error creating request:', err);
+      showNotification({
+        type: 'error',
+        message: 'Failed to submit license request',
+      });
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
-  const approveRequest = async (id: string, notes?: string): Promise<boolean> => {
+  const updateRequest = async (id: string, updates: Partial<LicenseRequest>) => {
     try {
-      const data = await requestService.approve(id, notes);
-      setRequests((prev) => prev.map((r) => (r.id === id ? data : r)));
-      showNotification('success', 'Request approved successfully');
-      return true;
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Failed to approve request';
-      showNotification('error', errorMessage);
-      return false;
+      setLoading(true);
+      const updatedRequest = await requestService.updateRequest(id, updates);
+      setRequests(prev =>
+        prev.map(req => (req.id === id ? updatedRequest : req))
+      );
+      showNotification({
+        type: 'success',
+        message: 'Request updated successfully',
+      });
+      return updatedRequest;
+    } catch (err) {
+      console.error('Error updating request:', err);
+      showNotification({
+        type: 'error',
+        message: 'Failed to update request',
+      });
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
-  const rejectRequest = async (id: string, notes?: string): Promise<boolean> => {
+  const deleteRequest = async (id: string) => {
     try {
-      const data = await requestService.reject(id, notes);
-      setRequests((prev) => prev.map((r) => (r.id === id ? data : r)));
-      showNotification('success', 'Request rejected successfully');
-      return true;
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Failed to reject request';
-      showNotification('error', errorMessage);
-      return false;
-    }
-  };
-
-  const getPendingRequests = async () => {
-    try {
-      const data = await requestService.getPending();
-      return data;
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Failed to fetch pending requests';
-      showNotification('error', errorMessage);
-      return [];
+      setLoading(true);
+      await requestService.deleteRequest(id);
+      setRequests(prev => prev.filter(req => req.id !== id));
+      showNotification({
+        type: 'success',
+        message: 'Request deleted successfully',
+      });
+    } catch (err) {
+      console.error('Error deleting request:', err);
+      showNotification({
+        type: 'error',
+        message: 'Failed to delete request',
+      });
+      throw err;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,10 +102,9 @@ export const useRequests = () => {
     requests,
     loading,
     error,
-    refetch: fetchRequests,
+    fetchRequests,
     createRequest,
-    approveRequest,
-    rejectRequest,
-    getPendingRequests,
+    updateRequest,
+    deleteRequest,
   };
 };

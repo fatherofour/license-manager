@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Package, Mail, Lock } from 'lucide-react';
-import { Input } from '@/components/common/Input';
-import { Button } from '@/components/common/Button';
-import { useAuth } from '@/hooks/useAuth';
+import { Input } from '@/components/common/input';
+import { Button } from "@/components/common/button";
+import { useAuth } from '@/hooks/useauths';
 import { APP_NAME } from '@/utils/constants';
 
 export const LoginPage: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
   const { login } = useAuth();
   const [email, setEmail] = useState('');

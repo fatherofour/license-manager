@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CheckCircle, XCircle, AlertCircle, Info, X } from 'lucide-react';
-import { useNotification, NotificationType } from '@/context/NotificationContext';
+import { useNotification } from '@/context/NotificationContext';
 
 const icons = {
   success: CheckCircle,

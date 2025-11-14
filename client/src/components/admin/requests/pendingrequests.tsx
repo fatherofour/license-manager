@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { RequestCard } from './RequestCard';
-import { useRequests } from '@/hooks/useRequests';
-import { Loader } from '@/components/common/Loader';
-import { Modal } from '@/components/common/Modal';
-import { Button } from '@/components/common/Button';
-import { Input } from '@/components/common/Input';
+import { RequestCard } from './requestcard';
+import { useRequests } from '@/hooks/userequests';
+import { Loader } from '@/components/common/loader';
+import { Modal } from '@/components/common/modal';
+import { Button } from "@/components/common/button";
+import { Input } from '@/components/common/input';
 import { Filter, Search } from 'lucide-react';
 
 export const PendingRequests: React.FC = () => {

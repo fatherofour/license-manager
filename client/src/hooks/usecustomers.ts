@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Customer } from '@/types';
+import { Customer } from '@shared/types/customer.types';
 import { customerService } from '@/services/customer.service';
 import { useNotification } from '@/context/NotificationContext';
 
@@ -9,12 +9,24 @@ export const useCustomers = () => {
   const [error, setError] = useState<string | null>(null);
   const { showNotification } = useNotification();
 
+  const transformCustomer = (customer: any): any => ({
+    ...customer,
+    lastPurchase: customer.lastPurchase instanceof Date 
+      ? customer.lastPurchase.toISOString() 
+      : customer.lastPurchase,
+    licenses: customer.licenses?.map((license: any) => ({
+      ...license,
+      issueDate: license.issueDate instanceof Date ? license.issueDate.toISOString() : license.issueDate,
+      expiryDate: license.expiryDate instanceof Date ? license.expiryDate.toISOString() : license.expiryDate,
+    })) || []
+  });
+
   const fetchCustomers = async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await customerService.getAll();
-      setCustomers(data);
+      setCustomers(data.map(transformCustomer));
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || 'Failed to fetch customers';
       setError(errorMessage);
@@ -27,7 +39,7 @@ export const useCustomers = () => {
   const getCustomer = async (id: string): Promise<Customer | null> => {
     try {
       const data = await customerService.getById(id);
-      return data;
+      return transformCustomer(data);
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || 'Failed to fetch customer';
       showNotification('error', errorMessage);
@@ -38,9 +50,10 @@ export const useCustomers = () => {
   const createCustomer = async (customerData: any): Promise<Customer | null> => {
     try {
       const data = await customerService.create(customerData);
-      setCustomers((prev) => [...prev, data]);
+      const transformedData = transformCustomer(data);
+      setCustomers((prev) => [...prev, transformedData]);
       showNotification('success', 'Customer created successfully');
-      return data;
+      return transformedData;
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || 'Failed to create customer';
       showNotification('error', errorMessage);
@@ -54,9 +67,10 @@ export const useCustomers = () => {
   ): Promise<Customer | null> => {
     try {
       const data = await customerService.update(id, customerData);
-      setCustomers((prev) => prev.map((c) => (c.id === id ? data : c)));
+      const transformedData = transformCustomer(data);
+      setCustomers((prev) => prev.map((c) => (c.id === id ? transformedData : c)));
       showNotification('success', 'Customer updated successfully');
-      return data;
+      return transformedData;
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || 'Failed to update customer';
       showNotification('error', errorMessage);

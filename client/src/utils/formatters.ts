@@ -1,10 +1,25 @@
-export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat('en-US', {
+export const formatCurrency = (amount: number, showDualCurrency: boolean = true): string => {
+  const nairaAmount = new Intl.NumberFormat('en-NG', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'NGN',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
+
+  if (!showDualCurrency) {
+    return nairaAmount;
+  }
+
+  // Using 1:1 exchange rate for development
+  const usdAmount = amount;
+  const formattedUsd = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(usdAmount);
+
+  return `${nairaAmount} (${formattedUsd})`;
 };
 
 export const formatDate = (date: string | Date): string => {

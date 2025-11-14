@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
-import { Input } from '@/components/common/Input';
-import { Select } from '@/components/common/Select';
-import { Button } from '@/components/common/Button';
+import { Input } from '@/components/common/input';
+import { Select } from '@/components/common/select';
+import { Button } from "@/components/common/button";
 import { Card } from '@/components/common/Card';
-import { useCustomers } from '@/hooks/useCustomers';
-import { useLicenses } from '@/hooks/useLicenses';
-import { useRequests } from '@/hooks/useRequests';
+import { useCustomers } from '@/hooks/usecustomers';
+import { useLicenses } from '@/hooks/uselicenses';
+import { useRequests } from '@/hooks/userequests';
 import { useNotification } from '@/context/NotificationContext';
 import { LICENSE_TYPES, LICENSE_SUBTYPES } from '@/utils/constants';
 import { validateEmail, validatePhone, validateRequired } from '@/utils/validators';

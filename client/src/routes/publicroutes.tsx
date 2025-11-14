@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
-import { Loader } from '@/components/common/Loader';
+import { useAuth } from '@/hooks/useauths';
+import { Loader } from '@/components/common/loader';
 import { UserRole } from '@/types';
 
 interface PublicRouteProps {
